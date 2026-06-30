@@ -13,25 +13,26 @@ import javax.swing.JScrollPane;
 import javax.swing.JTree;
 import javax.swing.JButton;
 import javax.swing.JPanel;
-import org.eclipse.wb.swing.FocusTraversalOnArray;
-
-import java.awt.Component;
 import java.awt.GridLayout;
 import java.awt.Image;
-
 import javax.swing.JLabel;
 import javax.swing.JSplitPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.ImageIcon;
+import java.awt.event.*;
+import javax.swing.JOptionPane;
 
 /**
  * 
  */
-public class MainWindow {
+public class MainWindow implements ActionListener {
 
 	private JFrame frmKtUsbControl;
 	private JTable table;
+	private JMenuItem mntmSalir, mntmAcercaDe;
+	private JTree tree;
+	private JToolBar statusBar, toolBar;
 
 	/**
 	 * Create the application.
@@ -77,9 +78,11 @@ public class MainWindow {
 		
 		mnArchivo.addSeparator();
 		
-		JMenuItem mntmSalir = new JMenuItem("Salir");
+		mntmSalir = new JMenuItem("Salir");
 		mnArchivo.add(mntmSalir);
 		mntmSalir.setIcon(GetResizedIcon("/resources/exit.png"));
+		
+		mntmSalir.addActionListener(this);
 		
 		JMenu mnConexion = new JMenu("Conexión");
 		menuBar.add(mnConexion);
@@ -119,11 +122,12 @@ public class MainWindow {
 		JMenu mnAyuda = new JMenu("Ayuda");
 		menuBar.add(mnAyuda);
 		
-		JMenuItem mntmAcercaDe = new JMenuItem("Acerca de...");
+		mntmAcercaDe = new JMenuItem("Acerca de...");
 		mnAyuda.add(mntmAcercaDe);
 		mntmAcercaDe.setIcon(GetResizedIcon("/resources/help.png"));
+		mntmAcercaDe.addActionListener(this);
 		
-		JToolBar toolBar = new JToolBar();
+		toolBar = new JToolBar();
 		panel.add(toolBar);
 		
 		JButton btnNuevo = new JButton();
@@ -181,10 +185,18 @@ public class MainWindow {
 		btnVentanaSalida.setIcon(GetResizedIcon("/resources/output.png"));
 		btnVentanaSalida.setToolTipText("Ventana de salida");
 		toolBar.add(btnVentanaSalida);
-		panel.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{menuBar, mnArchivo, mntmSalir, toolBar, btnNuevo, btnAbrir, btnGuardar, btnConectar, btnLeer, btnEscribir, btnReproducir, btnDetener, btnVentanaSalida}));
 		
+		btnVentanaSalida.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				JOptionPane.showMessageDialog(MainWindow.this.frmKtUsbControl, "No implementado.", "Error de KtUsbControl", JOptionPane.ERROR_MESSAGE);
+			}
+			
+		});
 		
-		JToolBar statusBar = new JToolBar();
+		statusBar = new JToolBar();
 		frmKtUsbControl.getContentPane().add(statusBar, BorderLayout.SOUTH);
 		
 		JLabel lblCargando = new JLabel("En espera ...");
@@ -197,7 +209,7 @@ public class MainWindow {
 		JScrollPane scrollTree = new JScrollPane();
 		splitPane.setLeftComponent(scrollTree);
 		
-		JTree tree = new JTree();
+		tree = new JTree();
 		scrollTree.setViewportView(tree);
 		
 		JScrollPane scrollTable = new JScrollPane();
@@ -218,6 +230,7 @@ public class MainWindow {
 			Class[] columnTypes = new Class[] {
 				String.class, String.class
 			};
+			
 			@SuppressWarnings({ "unchecked", "rawtypes" })
 			public Class getColumnClass(int columnIndex) {
 				return columnTypes[columnIndex];
@@ -242,6 +255,11 @@ public class MainWindow {
 		frmKtUsbControl.setVisible(true);
 	}
 	
+	public void close()
+	{
+		frmKtUsbControl.dispose();
+	}
+	
 	private ImageIcon GetResizedIcon(String resourcePath)
 	{
 		ImageIcon orgicono, icono;
@@ -252,6 +270,19 @@ public class MainWindow {
 		img = rzimg.getScaledInstance(16, 16, Image.SCALE_SMOOTH);
 		icono = new ImageIcon(img);
 		return icono;
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		if(e.getSource() == mntmSalir)
+		{
+			close();
+		}
+		else if(e.getSource() == mntmAcercaDe)
+		{
+			JOptionPane.showMessageDialog(frmKtUsbControl, "KtUsbControl V0.1\nBy FJGO.", "Acerca De KtUsbControl", JOptionPane.INFORMATION_MESSAGE);
+		}
 	}
 
 }
