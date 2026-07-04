@@ -9,6 +9,7 @@ import javax.swing.JToolBar;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
 import javax.swing.JButton;
@@ -18,6 +19,8 @@ import org.eclipse.wb.swing.FocusTraversalOnArray;
 import java.awt.Component;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JLabel;
 import javax.swing.JSplitPane;
@@ -181,6 +184,17 @@ public class MainWindow {
 		btnVentanaSalida.setIcon(GetResizedIcon("/resources/output.png"));
 		btnVentanaSalida.setToolTipText("Ventana de salida");
 		toolBar.add(btnVentanaSalida);
+		
+		btnVentanaSalida.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				JOptionPane.showMessageDialog(MainWindow.this.frmKtUsbControl, "No implementado.", "Error de KtUsbControl", JOptionPane.ERROR_MESSAGE);
+			}
+			
+		});
+		
 		panel.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{menuBar, mnArchivo, mntmSalir, toolBar, btnNuevo, btnAbrir, btnGuardar, btnConectar, btnLeer, btnEscribir, btnReproducir, btnDetener, btnVentanaSalida}));
 		
 		
