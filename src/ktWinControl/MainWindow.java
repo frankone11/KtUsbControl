@@ -12,8 +12,6 @@ import javax.swing.JMenuItem;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
 import javax.swing.JButton;
-import javax.swing.JPanel;
-import java.awt.GridLayout;
 import java.awt.Image;
 import javax.swing.JLabel;
 import javax.swing.JSplitPane;
@@ -28,11 +26,24 @@ import javax.swing.JOptionPane;
  */
 public class MainWindow implements ActionListener {
 
+	//Ventana principal
 	private JFrame frmKtUsbControl;
-	private JMenuItem mntmSalir, mntmVentanaSalida, mntmAcercaDe;
+	
+	//Menú Archivo
+	private JMenuItem mntmSalir;
+	//Menú Conexión
+	private JMenuItem mntmVentanaSalida;
+	//Menú Ayuda
+	private JMenuItem mntmAcercaDe;
+	
+	//Botones Barra Principal
 	private JButton btnVentanaSalida;
+	
+	
 	private JTree tree;
 	private JTable table;
+	
+	//Toolbar y Statusbar
 	private JToolBar statusBar, toolBar;
 
 	/**
@@ -53,12 +64,8 @@ public class MainWindow implements ActionListener {
 		frmKtUsbControl.getContentPane().setLayout(new BorderLayout(0, 0));
 		frmKtUsbControl.setIconImage(new ImageIcon(MainWindow.class.getResource("/resources/usb.png")).getImage());
 		
-		JPanel panel = new JPanel();
-		frmKtUsbControl.getContentPane().add(panel, BorderLayout.NORTH);
-		panel.setLayout(new GridLayout(2, 1, 0, 0));
-		
 		JMenuBar menuBar = new JMenuBar();
-		panel.add(menuBar);
+		frmKtUsbControl.setJMenuBar(menuBar);
 		
 		JMenu mnArchivo = new JMenu("Archivo");
 		menuBar.add(mnArchivo);
@@ -140,7 +147,7 @@ public class MainWindow implements ActionListener {
 		mntmAcercaDe.addActionListener(this);
 		
 		toolBar = new JToolBar();
-		panel.add(toolBar);
+		frmKtUsbControl.getContentPane().add(toolBar, BorderLayout.NORTH);
 		
 		JButton btnNuevo = new JButton();
 		btnNuevo.setIcon(GetResizedIcon("/resources/new.png"));
