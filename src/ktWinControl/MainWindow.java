@@ -5,6 +5,9 @@ package ktWinControl;
 
 import javax.swing.JFrame;
 import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.Dimension;
+
 import javax.swing.JToolBar;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
@@ -20,6 +23,8 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.ImageIcon;
 import java.awt.event.*;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JProgressBar;
 
 /**
  * 
@@ -30,21 +35,51 @@ public class MainWindow implements ActionListener {
 	private JFrame frmKtUsbControl;
 	
 	//Menú Archivo
+	private JMenuItem menuNuevo;
+	private JMenuItem menuAbrir;
+	private JMenuItem menuGuardar;
+	private JMenuItem menuGuardarComo;
 	private JMenuItem mntmSalir;
+	
 	//Menú Conexión
+	private JMenuItem mntmConectar;
+	private JMenuItem mntmLeer;
+	private JMenuItem mntmEscribir;
+	private JMenuItem mntmRecargar;
+	private JMenuItem mntmReproducir;
+	private JMenuItem mntmDetener;
 	private JMenuItem mntmVentanaSalida;
+	
 	//Menú Ayuda
 	private JMenuItem mntmAcercaDe;
 	
+	//Toolbar
+	private JToolBar toolBar;
+	
 	//Botones Barra Principal
+	private JButton btnNuevo;
+	private JButton btnAbrir;
+	private JButton btnGuardar;
+	private JButton btnConectar;
+	private JButton btnLeer;
+	private JButton btnEscribir;
+	private JButton btnRecargar;
+	private JButton btnReproducir;
+	private JButton btnDetener;
 	private JButton btnVentanaSalida;
 	
 	
 	private JTree tree;
 	private JTable table;
 	
-	//Toolbar y Statusbar
-	private JToolBar statusBar, toolBar;
+	//Statusbar
+	private JToolBar statusBar;
+	
+	//Status Label
+	private JLabel lblCargando;
+	
+	//ProgressBar
+	private JProgressBar pgStatus;
 
 	/**
 	 * Create the application.
@@ -70,22 +105,22 @@ public class MainWindow implements ActionListener {
 		JMenu mnArchivo = new JMenu("Archivo");
 		menuBar.add(mnArchivo);
 		
-		JMenuItem menuNuevo = new JMenuItem("Nuevo");
+		menuNuevo = new JMenuItem("Nuevo");
 		mnArchivo.add(menuNuevo);
 		menuNuevo.setIcon(GetResizedIcon("/resources/new.png"));
 		menuNuevo.addActionListener(this);
 		
-		JMenuItem menuAbrir = new JMenuItem("Abrir...");
+		menuAbrir = new JMenuItem("Abrir...");
 		mnArchivo.add(menuAbrir);
 		menuAbrir.setIcon(GetResizedIcon("/resources/open.png"));
 		menuAbrir.addActionListener(this);
 		
-		JMenuItem menuGuardar = new JMenuItem("Guardar");
+		menuGuardar = new JMenuItem("Guardar");
 		mnArchivo.add(menuGuardar);
 		menuGuardar.setIcon(GetResizedIcon("/resources/save.png"));
 		menuGuardar.addActionListener(this);
 		
-		JMenuItem menuGuardarComo = new JMenuItem("Guardar como...");
+		menuGuardarComo = new JMenuItem("Guardar como...");
 		mnArchivo.add(menuGuardarComo);
 		menuGuardarComo.addActionListener(this);
 		
@@ -99,34 +134,34 @@ public class MainWindow implements ActionListener {
 		JMenu mnConexion = new JMenu("Conexión");
 		menuBar.add(mnConexion);
 		
-		JMenuItem mntmConectar = new JMenuItem("Conectar");
+		mntmConectar = new JMenuItem("Conectar");
 		mnConexion.add(mntmConectar);
 		mntmConectar.setIcon(GetResizedIcon("/resources/noconnected.png"));
 		mntmConectar.addActionListener(this);
 		
-		JMenuItem mntmLeer = new JMenuItem("Leer USB");
+		mntmLeer = new JMenuItem("Leer USB");
 		mnConexion.add(mntmLeer);
 		mntmLeer.setIcon(GetResizedIcon("/resources/download.png"));
 		mntmLeer.addActionListener(this);
 		
-		JMenuItem mntmEscribir = new JMenuItem("Escribir USB");
+		mntmEscribir = new JMenuItem("Escribir USB");
 		mnConexion.add(mntmEscribir);
 		mntmEscribir.setIcon(GetResizedIcon("/resources/upload.png"));
 		mntmEscribir.addActionListener(this);
 		
-		JMenuItem mntmRecargar = new JMenuItem("Recargar USB");
+		mntmRecargar = new JMenuItem("Recargar USB");
 		mnConexion.add(mntmRecargar);
 		mntmRecargar.setIcon(GetResizedIcon("/resources/refresh.png"));
 		mntmRecargar.addActionListener(this);
 		
 		mnConexion.addSeparator();
 		
-		JMenuItem mntmReproducir = new JMenuItem("Reproducir USB");
+		mntmReproducir = new JMenuItem("Reproducir USB");
 		mnConexion.add(mntmReproducir);
 		mntmReproducir.setIcon(GetResizedIcon("/resources/play.png"));
 		mntmReproducir.addActionListener(this);
 		
-		JMenuItem mntmDetener = new JMenuItem("Detener USB");
+		mntmDetener = new JMenuItem("Detener USB");
 		mnConexion.add(mntmDetener);
 		mntmDetener.setIcon(GetResizedIcon("/resources/stop.png"));
 		mntmDetener.addActionListener(this);
@@ -149,19 +184,19 @@ public class MainWindow implements ActionListener {
 		toolBar = new JToolBar();
 		frmKtUsbControl.getContentPane().add(toolBar, BorderLayout.NORTH);
 		
-		JButton btnNuevo = new JButton();
+		btnNuevo = new JButton();
 		btnNuevo.setIcon(GetResizedIcon("/resources/new.png"));
 		btnNuevo.setToolTipText("Nuevo");
 		toolBar.add(btnNuevo);
 		btnNuevo.addActionListener(this);
 		
-		JButton btnAbrir = new JButton();
+		btnAbrir = new JButton();
 		btnAbrir.setIcon(GetResizedIcon("/resources/open.png"));
 		btnAbrir.setToolTipText("Abrir");
 		toolBar.add(btnAbrir);
 		btnAbrir.addActionListener(this);
 		
-		JButton btnGuardar = new JButton();
+		btnGuardar = new JButton();
 		btnGuardar.setIcon(GetResizedIcon("/resources/save.png"));
 		btnGuardar.setToolTipText("Guardar");
 		toolBar.add(btnGuardar);
@@ -169,25 +204,25 @@ public class MainWindow implements ActionListener {
 		
 		toolBar.addSeparator();
 		
-		JButton btnConectar = new JButton();
+		btnConectar = new JButton();
 		btnConectar.setIcon(GetResizedIcon("/resources/noconnected.png"));
 		btnConectar.setToolTipText("Conectar");
 		toolBar.add(btnConectar);
 		btnConectar.addActionListener(this);
 		
-		JButton btnLeer = new JButton();
+		btnLeer = new JButton();
 		btnLeer.setIcon(GetResizedIcon("/resources/download.png"));
 		btnLeer.setToolTipText("Leer USB");
 		toolBar.add(btnLeer);
 		btnLeer.addActionListener(this);
 		
-		JButton btnEscribir = new JButton();
+		btnEscribir = new JButton();
 		btnEscribir.setIcon(GetResizedIcon("/resources/upload.png"));
 		btnEscribir.setToolTipText("Escribir USB");
 		toolBar.add(btnEscribir);
 		btnEscribir.addActionListener(this);
 		
-		JButton btnRecargar = new JButton();
+		btnRecargar = new JButton();
 		btnRecargar.setIcon(GetResizedIcon("/resources/refresh.png"));
 		btnRecargar.setToolTipText("Recargar USB");
 		toolBar.add(btnRecargar);
@@ -195,13 +230,13 @@ public class MainWindow implements ActionListener {
 		
 		toolBar.addSeparator();
 		
-		JButton btnReproducir = new JButton();
+		btnReproducir = new JButton();
 		btnReproducir.setIcon(GetResizedIcon("/resources/play.png"));
 		btnReproducir.setToolTipText("Reproducir USB");
 		toolBar.add(btnReproducir);
 		btnReproducir.addActionListener(this);
 		
-		JButton btnDetener = new JButton();
+		btnDetener = new JButton();
 		btnDetener.setIcon(GetResizedIcon("/resources/stop.png"));
 		btnDetener.setToolTipText("Detener USB");
 		toolBar.add(btnDetener);
@@ -215,22 +250,36 @@ public class MainWindow implements ActionListener {
 		toolBar.add(btnVentanaSalida);
 		btnVentanaSalida.addActionListener(this);
 		
-		/*btnVentanaSalida.addActionListener(new ActionListener() {
-			//Se agrega al action Listener de la clase.
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				JOptionPane.showMessageDialog(MainWindow.this.frmKtUsbControl, "No implementado.", "Error de KtUsbControl", JOptionPane.ERROR_MESSAGE);
-			}
-			
-		});*/
-		
 		statusBar = new JToolBar();
 		frmKtUsbControl.getContentPane().add(statusBar, BorderLayout.SOUTH);
 		
-		JLabel lblCargando = new JLabel("En espera ...");
+		lblCargando = new JLabel("En espera ...");
 		statusBar.add(lblCargando);
+		
+		statusBar.addSeparator();
+		
+		pgStatus = new JProgressBar();
+		JPanel panelProgress = new JPanel();	
+		statusBar.add(panelProgress);
+		statusBar.addSeparator();
+		
+		statusBar.add(pgStatus);
+		
+		Dimension pref = lblCargando.getPreferredSize();
+		
+		System.out.println(pref);		
+		pref.width=18;
+		lblCargando.setPreferredSize(pref);
+		//pref.width=150;
+		lblCargando.setSize(pref);
+		
+		System.out.println(pref);
+		
+		panelProgress.setPreferredSize(pref);
+		
+		pref.width = 30;
+		pgStatus.setPreferredSize(pref);
+		//pgStatus.setSize(pref);
 		
 		JSplitPane splitPane = new JSplitPane();
 		splitPane.setResizeWeight(0.25);
@@ -255,7 +304,8 @@ public class MainWindow implements ActionListener {
 			new String[] {
 				"Variable", "Valor"
 			}
-		) {
+		) 
+		{
 			@SuppressWarnings("rawtypes")
 			Class[] columnTypes = new Class[] {
 				String.class, String.class
@@ -303,7 +353,8 @@ public class MainWindow implements ActionListener {
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent e) {
+	public void actionPerformed(ActionEvent e) 
+	{
 		// TODO Auto-generated method stub
 		if(e.getSource() == mntmSalir)
 		{
@@ -311,7 +362,7 @@ public class MainWindow implements ActionListener {
 		}
 		else if(e.getSource() == mntmAcercaDe)
 		{
-			JOptionPane.showMessageDialog(frmKtUsbControl, "KtUsbControl V0.1\nBy FJGO.", "Acerca De KtUsbControl", JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(frmKtUsbControl, "KT USB Control V0.1 - 2026\nBy FJGO.", "Acerca De KT USB Control", JOptionPane.INFORMATION_MESSAGE);
 		}
 		else if(e.getSource() == mntmVentanaSalida || e.getSource() == btnVentanaSalida)
 		{
