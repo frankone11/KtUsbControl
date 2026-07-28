@@ -5,9 +5,7 @@ package ktWinControl;
 
 import javax.swing.JFrame;
 import java.awt.BorderLayout;
-import java.awt.Component;
 import java.awt.Dimension;
-
 import javax.swing.JToolBar;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
@@ -20,11 +18,12 @@ import javax.swing.JLabel;
 import javax.swing.JSplitPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.Box;
 import javax.swing.ImageIcon;
 import java.awt.event.*;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.JProgressBar;
+import java.awt.Component;
 
 /**
  * 
@@ -80,6 +79,7 @@ public class MainWindow implements ActionListener {
 	
 	//ProgressBar
 	private JProgressBar pgStatus;
+	private Component horizontalGlue;
 
 	/**
 	 * Create the application.
@@ -183,6 +183,7 @@ public class MainWindow implements ActionListener {
 		
 		toolBar = new JToolBar();
 		frmKtUsbControl.getContentPane().add(toolBar, BorderLayout.NORTH);
+		toolBar.setFloatable(false);
 		
 		btnNuevo = new JButton();
 		btnNuevo.setIcon(GetResizedIcon("/resources/new.png"));
@@ -250,37 +251,6 @@ public class MainWindow implements ActionListener {
 		toolBar.add(btnVentanaSalida);
 		btnVentanaSalida.addActionListener(this);
 		
-		statusBar = new JToolBar();
-		frmKtUsbControl.getContentPane().add(statusBar, BorderLayout.SOUTH);
-		
-		lblCargando = new JLabel("En espera ...");
-		statusBar.add(lblCargando);
-		
-		statusBar.addSeparator();
-		
-		pgStatus = new JProgressBar();
-		JPanel panelProgress = new JPanel();	
-		statusBar.add(panelProgress);
-		statusBar.addSeparator();
-		
-		statusBar.add(pgStatus);
-		
-		Dimension pref = lblCargando.getPreferredSize();
-		
-		System.out.println(pref);		
-		pref.width=18;
-		lblCargando.setPreferredSize(pref);
-		//pref.width=150;
-		lblCargando.setSize(pref);
-		
-		System.out.println(pref);
-		
-		panelProgress.setPreferredSize(pref);
-		
-		pref.width = 30;
-		pgStatus.setPreferredSize(pref);
-		//pgStatus.setSize(pref);
-		
 		JSplitPane splitPane = new JSplitPane();
 		splitPane.setResizeWeight(0.25);
 		frmKtUsbControl.getContentPane().add(splitPane, BorderLayout.CENTER);
@@ -328,6 +298,29 @@ public class MainWindow implements ActionListener {
 		table.setAutoResizeMode(0);
 		
 		scrollTable.setViewportView(table);
+		
+		statusBar = new JToolBar();
+		frmKtUsbControl.getContentPane().add(statusBar, BorderLayout.SOUTH);
+		statusBar.setFloatable(false);
+		
+		lblCargando = new JLabel("En espera ...");
+		statusBar.add(lblCargando);
+		
+		statusBar.addSeparator();
+		
+		statusBar.add(Box.createHorizontalGlue());
+		
+		statusBar.addSeparator();
+		
+		pgStatus = new JProgressBar();
+		statusBar.add(pgStatus);		
+		
+		Dimension pref = lblCargando.getPreferredSize();
+		
+		pref = pgStatus.getPreferredSize();
+		pref.width = 100;
+		pgStatus.setMaximumSize(pref);
+		pgStatus.setMinimumSize(pref);
 	}
 	
 	public void showWindow()
