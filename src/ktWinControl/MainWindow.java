@@ -13,7 +13,6 @@ import javax.swing.JMenuItem;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
 import javax.swing.JButton;
-import java.awt.Image;
 import javax.swing.JLabel;
 import javax.swing.JSplitPane;
 import javax.swing.JTable;
@@ -25,6 +24,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JProgressBar;
 import KtHidUsb.HidUsbControl;
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeCellRenderer;
 
 /**
  * 
@@ -117,17 +117,17 @@ public class MainWindow implements ActionListener {
 		
 		menuNuevo = new JMenuItem("Nuevo");
 		mnArchivo.add(menuNuevo);
-		menuNuevo.setIcon(GetResizedIcon("/resources/new.png"));
+		menuNuevo.setIcon(new ImageIcon(MainWindow.class.getResource("/resources/new.png")));
 		menuNuevo.addActionListener(this);
 		
 		menuAbrir = new JMenuItem("Abrir...");
 		mnArchivo.add(menuAbrir);
-		menuAbrir.setIcon(GetResizedIcon("/resources/open.png"));
+		menuAbrir.setIcon(new ImageIcon(MainWindow.class.getResource("/resources/open.png")));
 		menuAbrir.addActionListener(this);
 		
 		menuGuardar = new JMenuItem("Guardar");
 		mnArchivo.add(menuGuardar);
-		menuGuardar.setIcon(GetResizedIcon("/resources/save.png"));
+		menuGuardar.setIcon(new ImageIcon(MainWindow.class.getResource("/resources/save.png")));
 		menuGuardar.addActionListener(this);
 		
 		menuGuardarComo = new JMenuItem("Guardar como...");
@@ -138,7 +138,7 @@ public class MainWindow implements ActionListener {
 		
 		mntmSalir = new JMenuItem("Salir");
 		mnArchivo.add(mntmSalir);
-		mntmSalir.setIcon(GetResizedIcon("/resources/exit.png"));
+		mntmSalir.setIcon(new ImageIcon(MainWindow.class.getResource("/resources/exit.png")));
 		mntmSalir.addActionListener(this);
 		
 		JMenu mnConexion = new JMenu("Conexión");
@@ -146,41 +146,41 @@ public class MainWindow implements ActionListener {
 		
 		mntmConectar = new JMenuItem("Conectar");
 		mnConexion.add(mntmConectar);
-		mntmConectar.setIcon(GetResizedIcon("/resources/noconnected.png"));
+		mntmConectar.setIcon(new ImageIcon(MainWindow.class.getResource("/resources/noconnected.png")));
 		mntmConectar.addActionListener(this);
 		
 		mntmLeer = new JMenuItem("Leer USB");
 		mnConexion.add(mntmLeer);
-		mntmLeer.setIcon(GetResizedIcon("/resources/download.png"));
+		mntmLeer.setIcon(new ImageIcon(MainWindow.class.getResource("/resources/download.png")));
 		mntmLeer.addActionListener(this);
 		
 		mntmEscribir = new JMenuItem("Escribir USB");
 		mnConexion.add(mntmEscribir);
-		mntmEscribir.setIcon(GetResizedIcon("/resources/upload.png"));
+		mntmEscribir.setIcon(new ImageIcon(MainWindow.class.getResource("/resources/upload.png")));
 		mntmEscribir.addActionListener(this);
 		
 		mntmRecargar = new JMenuItem("Recargar USB");
 		mnConexion.add(mntmRecargar);
-		mntmRecargar.setIcon(GetResizedIcon("/resources/refresh.png"));
+		mntmRecargar.setIcon(new ImageIcon(MainWindow.class.getResource("/resources/refresh.png")));
 		mntmRecargar.addActionListener(this);
 		
 		mnConexion.addSeparator();
 		
 		mntmReproducir = new JMenuItem("Reproducir USB");
 		mnConexion.add(mntmReproducir);
-		mntmReproducir.setIcon(GetResizedIcon("/resources/play.png"));
+		mntmReproducir.setIcon(new ImageIcon(MainWindow.class.getResource("/resources/play.png")));
 		mntmReproducir.addActionListener(this);
 		
 		mntmDetener = new JMenuItem("Detener USB");
 		mnConexion.add(mntmDetener);
-		mntmDetener.setIcon(GetResizedIcon("/resources/stop.png"));
+		mntmDetener.setIcon(new ImageIcon(MainWindow.class.getResource("/resources/stop.png")));
 		mntmDetener.addActionListener(this);
 		
 		mnConexion.addSeparator();
 		
 		mntmVentanaSalida = new JMenuItem("Ventana de salida");
 		mnConexion.add(mntmVentanaSalida);
-		mntmVentanaSalida.setIcon(GetResizedIcon("/resources/output.png"));		
+		mntmVentanaSalida.setIcon(new ImageIcon(MainWindow.class.getResource("/resources/output.png")));		
 		mntmVentanaSalida.addActionListener(this);
 		
 		JMenu mnAyuda = new JMenu("Ayuda");
@@ -188,7 +188,7 @@ public class MainWindow implements ActionListener {
 		
 		mntmAcercaDe = new JMenuItem("Acerca de...");
 		mnAyuda.add(mntmAcercaDe);
-		mntmAcercaDe.setIcon(GetResizedIcon("/resources/help.png"));
+		mntmAcercaDe.setIcon(new ImageIcon(MainWindow.class.getResource("/resources/help.png")));
 		mntmAcercaDe.addActionListener(this);
 		
 		toolBar = new JToolBar();
@@ -196,19 +196,19 @@ public class MainWindow implements ActionListener {
 		toolBar.setFloatable(false);
 		
 		btnNuevo = new JButton();
-		btnNuevo.setIcon(GetResizedIcon("/resources/new.png"));
+		btnNuevo.setIcon(new ImageIcon(MainWindow.class.getResource("/resources/new.png")));
 		btnNuevo.setToolTipText("Nuevo");
 		toolBar.add(btnNuevo);
 		btnNuevo.addActionListener(this);
 		
 		btnAbrir = new JButton();
-		btnAbrir.setIcon(GetResizedIcon("/resources/open.png"));
+		btnAbrir.setIcon(new ImageIcon(MainWindow.class.getResource("/resources/open.png")));
 		btnAbrir.setToolTipText("Abrir");
 		toolBar.add(btnAbrir);
 		btnAbrir.addActionListener(this);
 		
 		btnGuardar = new JButton();
-		btnGuardar.setIcon(GetResizedIcon("/resources/save.png"));
+		btnGuardar.setIcon(new ImageIcon(MainWindow.class.getResource("/resources/save.png")));
 		btnGuardar.setToolTipText("Guardar");
 		toolBar.add(btnGuardar);
 		btnGuardar.addActionListener(this);
@@ -216,25 +216,25 @@ public class MainWindow implements ActionListener {
 		toolBar.addSeparator();
 		
 		btnConectar = new JButton();
-		btnConectar.setIcon(GetResizedIcon("/resources/noconnected.png"));
+		btnConectar.setIcon(new ImageIcon(MainWindow.class.getResource("/resources/noconnected.png")));
 		btnConectar.setToolTipText("Conectar");
 		toolBar.add(btnConectar);
 		btnConectar.addActionListener(this);
 		
 		btnLeer = new JButton();
-		btnLeer.setIcon(GetResizedIcon("/resources/download.png"));
+		btnLeer.setIcon(new ImageIcon(MainWindow.class.getResource("/resources/download.png")));
 		btnLeer.setToolTipText("Leer USB");
 		toolBar.add(btnLeer);
 		btnLeer.addActionListener(this);
 		
 		btnEscribir = new JButton();
-		btnEscribir.setIcon(GetResizedIcon("/resources/upload.png"));
+		btnEscribir.setIcon(new ImageIcon(MainWindow.class.getResource("/resources/upload.png")));
 		btnEscribir.setToolTipText("Escribir USB");
 		toolBar.add(btnEscribir);
 		btnEscribir.addActionListener(this);
 		
 		btnRecargar = new JButton();
-		btnRecargar.setIcon(GetResizedIcon("/resources/refresh.png"));
+		btnRecargar.setIcon(new ImageIcon(MainWindow.class.getResource("/resources/refresh.png")));
 		btnRecargar.setToolTipText("Recargar USB");
 		toolBar.add(btnRecargar);
 		btnRecargar.addActionListener(this);
@@ -242,13 +242,13 @@ public class MainWindow implements ActionListener {
 		toolBar.addSeparator();
 		
 		btnReproducir = new JButton();
-		btnReproducir.setIcon(GetResizedIcon("/resources/play.png"));
+		btnReproducir.setIcon(new ImageIcon(MainWindow.class.getResource("/resources/play.png")));
 		btnReproducir.setToolTipText("Reproducir USB");
 		toolBar.add(btnReproducir);
 		btnReproducir.addActionListener(this);
 		
 		btnDetener = new JButton();
-		btnDetener.setIcon(GetResizedIcon("/resources/stop.png"));
+		btnDetener.setIcon(new ImageIcon(MainWindow.class.getResource("/resources/stop.png")));
 		btnDetener.setToolTipText("Detener USB");
 		toolBar.add(btnDetener);
 		btnDetener.addActionListener(this);
@@ -256,7 +256,7 @@ public class MainWindow implements ActionListener {
 		toolBar.addSeparator();
 		
 		btnVentanaSalida = new JButton();
-		btnVentanaSalida.setIcon(GetResizedIcon("/resources/output.png"));
+		btnVentanaSalida.setIcon(new ImageIcon(MainWindow.class.getResource("/resources/output.png")));
 		btnVentanaSalida.setToolTipText("Ventana de salida");
 		toolBar.add(btnVentanaSalida);
 		btnVentanaSalida.addActionListener(this);
@@ -298,6 +298,8 @@ public class MainWindow implements ActionListener {
 		
 		tree.setShowsRootHandles(true);
 		tree.putClientProperty("JTree.lineStyle", "Angled");
+		DefaultTreeCellRenderer renderer = (DefaultTreeCellRenderer) tree.getCellRenderer();
+		renderer.setLeafIcon(new ImageIcon(MainWindow.class.getResource("/resources/right.png")));
 		
 		JScrollPane scrollTable = new JScrollPane();
 		splitPane.setRightComponent(scrollTable);
@@ -370,18 +372,6 @@ public class MainWindow implements ActionListener {
 	{
 		frmKtUsbControl.dispose();
 	}
-	
-	private ImageIcon GetResizedIcon(String resourcePath)
-	{
-		ImageIcon orgicono, icono;
-		Image rzimg, img;
-		
-		orgicono = new ImageIcon(MainWindow.class.getResource(resourcePath));
-		rzimg = orgicono.getImage();
-		img = rzimg.getScaledInstance(16, 16, Image.SCALE_SMOOTH);
-		icono = new ImageIcon(img);
-		return icono;
-	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) 
@@ -403,8 +393,8 @@ public class MainWindow implements ActionListener {
 				//hidUsb.CierraHidUsb();
 				
 				mntmConectar.setText("Conectar");
-				mntmConectar.setIcon(GetResizedIcon("/resources/noconnected.png"));
-				btnConectar.setIcon(GetResizedIcon("/resources/noconnected.png"));
+				mntmConectar.setIcon(new ImageIcon(MainWindow.class.getResource("/resources/noconnected.png")));
+				btnConectar.setIcon(new ImageIcon(MainWindow.class.getResource("/resources/noconnected.png")));
 				btnConectar.setToolTipText("Conectar");
 			}
 			else
@@ -417,8 +407,8 @@ public class MainWindow implements ActionListener {
 				{
 					usbabierto = true;
 					mntmConectar.setText("Desconectar");
-					mntmConectar.setIcon(GetResizedIcon("/resources/connected.png"));
-					btnConectar.setIcon(GetResizedIcon("/resources/connected.png"));
+					mntmConectar.setIcon(new ImageIcon(MainWindow.class.getResource("/resources/connected.png")));
+					btnConectar.setIcon(new ImageIcon(MainWindow.class.getResource("/resources/connected.png")));
 					btnConectar.setToolTipText("Desconectar");				
 				}
 			}
