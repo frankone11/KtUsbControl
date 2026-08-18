@@ -4,9 +4,11 @@
 /**
  * 
  */
+
 module KtUsbControl {
 	requires java.desktop;
 	requires java.logging;
+	requires KtJUsb;
 
 	exports com.formdev.flatlaf;
 	exports com.formdev.flatlaf.icons;

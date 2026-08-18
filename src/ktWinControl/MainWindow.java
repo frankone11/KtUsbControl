@@ -23,7 +23,8 @@ import javax.swing.ImageIcon;
 import java.awt.event.*;
 import javax.swing.JOptionPane;
 import javax.swing.JProgressBar;
-import java.awt.Component;
+//import java.awt.Component;
+import KtHidUsb.HidUsbControl;
 
 /**
  * 
@@ -79,13 +80,19 @@ public class MainWindow implements ActionListener {
 	
 	//ProgressBar
 	private JProgressBar pgStatus;
-	private Component horizontalGlue;
+	
+	//HID USB
+	//private HidUsbControl hidUsb;
+	private boolean usbabierto;
+	
 
 	/**
 	 * Create the application.
 	 */
 	public MainWindow() {
-		initialize();
+		usbabierto = false;
+		//hidUsb = new HidUsbControl();
+		initialize();		
 	}
 
 	/**
@@ -356,6 +363,34 @@ public class MainWindow implements ActionListener {
 		else if(e.getSource() == mntmAcercaDe)
 		{
 			JOptionPane.showMessageDialog(frmKtUsbControl, "KT USB Control V0.1 - 2026\nBy FJGO.", "Acerca De KT USB Control", JOptionPane.INFORMATION_MESSAGE);
+		}
+		else if(e.getSource() == btnConectar || e.getSource() == mntmConectar)
+		{
+			if(usbabierto)
+			{
+				usbabierto = false;
+				//hidUsb.CierraHidUsb();
+				
+				mntmConectar.setText("Conectar");
+				mntmConectar.setIcon(GetResizedIcon("/resources/noconnected.png"));
+				btnConectar.setIcon(GetResizedIcon("/resources/noconnected.png"));
+				btnConectar.setToolTipText("Conectar");
+			}
+			else
+			{
+				/*if(!hidUsb.AbreHidUsb(0x1169, 0x5678))
+				{
+					JOptionPane.showMessageDialog(frmKtUsbControl, "Error de conexión con el dispositivo USB.\nVerifique que el dispositivo esté conectado y funcionando correctamente.", "Error de KtUsbControl", JOptionPane.ERROR_MESSAGE);
+				}
+				else
+				{*/
+					usbabierto = true;
+					mntmConectar.setText("Desconectar");
+					mntmConectar.setIcon(GetResizedIcon("/resources/connected.png"));
+					btnConectar.setIcon(GetResizedIcon("/resources/connected.png"));
+					btnConectar.setToolTipText("Desconectar");				
+				//}
+			}
 		}
 		else if(e.getSource() == mntmVentanaSalida || e.getSource() == btnVentanaSalida)
 		{
