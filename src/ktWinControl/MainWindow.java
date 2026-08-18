@@ -23,8 +23,8 @@ import javax.swing.ImageIcon;
 import java.awt.event.*;
 import javax.swing.JOptionPane;
 import javax.swing.JProgressBar;
-//import java.awt.Component;
 import KtHidUsb.HidUsbControl;
+import javax.swing.tree.DefaultMutableTreeNode;
 
 /**
  * 
@@ -68,8 +68,11 @@ public class MainWindow implements ActionListener {
 	private JButton btnDetener;
 	private JButton btnVentanaSalida;
 	
-	
+	//Tree
+	private DefaultMutableTreeNode root;
 	private JTree tree;
+	
+	//Table
 	private JTable table;
 	
 	//Statusbar
@@ -82,7 +85,7 @@ public class MainWindow implements ActionListener {
 	private JProgressBar pgStatus;
 	
 	//HID USB
-	//private HidUsbControl hidUsb;
+	private HidUsbControl hidUsb;
 	private boolean usbabierto;
 	
 
@@ -91,7 +94,7 @@ public class MainWindow implements ActionListener {
 	 */
 	public MainWindow() {
 		usbabierto = false;
-		//hidUsb = new HidUsbControl();
+		hidUsb = new HidUsbControl();
 		initialize();		
 	}
 
@@ -265,8 +268,36 @@ public class MainWindow implements ActionListener {
 		JScrollPane scrollTree = new JScrollPane();
 		splitPane.setLeftComponent(scrollTree);
 		
-		tree = new JTree();
+		root = new DefaultMutableTreeNode("Dispositivo USB");
+		
+		DefaultMutableTreeNode leido = new DefaultMutableTreeNode("Leido");
+		DefaultMutableTreeNode enviado = new DefaultMutableTreeNode("Enviado");
+		
+		DefaultMutableTreeNode propiedades = new DefaultMutableTreeNode("Propiedades");
+		DefaultMutableTreeNode datosleidos = new DefaultMutableTreeNode("Datos");
+		DefaultMutableTreeNode eventosleidos = new DefaultMutableTreeNode("Eventos");
+		
+		DefaultMutableTreeNode comandos = new DefaultMutableTreeNode("Comandos");
+		DefaultMutableTreeNode eventosenviados = new DefaultMutableTreeNode("Eventos");
+		DefaultMutableTreeNode rutinas = new DefaultMutableTreeNode("Rutinas");
+		
+		leido.add(propiedades);
+		leido.add(datosleidos);
+		leido.add(eventosleidos);
+		
+		enviado.add(comandos);
+		enviado.add(eventosenviados);
+		enviado.add(rutinas);
+		
+		
+		root.add(leido);
+		root.add(enviado);
+		
+		tree = new JTree(root);
 		scrollTree.setViewportView(tree);
+		
+		tree.setShowsRootHandles(true);
+		tree.putClientProperty("JTree.lineStyle", "Angled");
 		
 		JScrollPane scrollTable = new JScrollPane();
 		splitPane.setRightComponent(scrollTable);
@@ -378,27 +409,27 @@ public class MainWindow implements ActionListener {
 			}
 			else
 			{
-				/*if(!hidUsb.AbreHidUsb(0x1169, 0x5678))
+				if(!hidUsb.AbreHidUsb(0x1169, 0x5678))
 				{
-					JOptionPane.showMessageDialog(frmKtUsbControl, "Error de conexión con el dispositivo USB.\nVerifique que el dispositivo esté conectado y funcionando correctamente.", "Error de KtUsbControl", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(frmKtUsbControl, "Error de conexión con el dispositivo USB.\nVerifique que el dispositivo esté conectado y funcionando correctamente.", "Error de KT USB Control", JOptionPane.ERROR_MESSAGE);
 				}
 				else
-				{*/
+				{
 					usbabierto = true;
 					mntmConectar.setText("Desconectar");
 					mntmConectar.setIcon(GetResizedIcon("/resources/connected.png"));
 					btnConectar.setIcon(GetResizedIcon("/resources/connected.png"));
 					btnConectar.setToolTipText("Desconectar");				
-				//}
+				}
 			}
 		}
 		else if(e.getSource() == mntmVentanaSalida || e.getSource() == btnVentanaSalida)
 		{
-			JOptionPane.showMessageDialog(frmKtUsbControl, "No hay nada que mostrar.", "Alerta de KtUsbControl", JOptionPane.WARNING_MESSAGE);
+			JOptionPane.showMessageDialog(frmKtUsbControl, "No hay nada que mostrar.", "Alerta de KT USB Control", JOptionPane.WARNING_MESSAGE);
 		}
 		else
 		{
-			JOptionPane.showMessageDialog(frmKtUsbControl, "No implementado.", "Error de KtUsbControl", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(frmKtUsbControl, "No implementado.", "Error de KT USB Control", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 
