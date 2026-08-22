@@ -25,6 +25,8 @@ import javax.swing.JProgressBar;
 import KtHidUsb.HidUsbControl;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
+import javax.swing.tree.TreePath;
+import javax.swing.JComponent;
 
 /**
  * 
@@ -68,12 +70,16 @@ public class MainWindow implements ActionListener {
 	private JButton btnDetener;
 	private JButton btnVentanaSalida;
 	
+	//Lista de componentes que cambian de estado
+	private JComponent objetos[];
+	
 	//Tree
 	private DefaultMutableTreeNode root;
 	private JTree tree;
 	
 	//Table
 	private JTable table;
+	DefaultTableModel modeloDispositivo;
 	
 	//Statusbar
 	private JToolBar statusBar;
@@ -108,6 +114,7 @@ public class MainWindow implements ActionListener {
 		frmKtUsbControl.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmKtUsbControl.getContentPane().setLayout(new BorderLayout(0, 0));
 		frmKtUsbControl.setIconImage(new ImageIcon(MainWindow.class.getResource("/resources/usb.png")).getImage());
+		frmKtUsbControl.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		
 		JMenuBar menuBar = new JMenuBar();
 		frmKtUsbControl.setJMenuBar(menuBar);
@@ -294,6 +301,7 @@ public class MainWindow implements ActionListener {
 		root.add(enviado);
 		
 		tree = new JTree(root);
+		tree.setSelectionPath(new TreePath(root));
 		scrollTree.setViewportView(tree);
 		
 		tree.setShowsRootHandles(true);
@@ -305,34 +313,34 @@ public class MainWindow implements ActionListener {
 		splitPane.setRightComponent(scrollTable);
 		
 		table = new JTable();
-		table.setModel(new DefaultTableModel(
-			new String[][] {
-				{"home","paco"},
-				{"dir", "root"},
-				{"Prueba", "Si hay prueba"}
-			},
-			new String[] {
-				"Variable", "Valor"
-			}
-		) 
-		{
-			@SuppressWarnings("rawtypes")
-			Class[] columnTypes = new Class[] {
-				String.class, String.class
-			};
-			
-			@SuppressWarnings({ "unchecked", "rawtypes" })
-			public Class getColumnClass(int columnIndex) {
-				return columnTypes[columnIndex];
-			}
-			public boolean isCellEditable(int row, int column)
+		modeloDispositivo = new DefaultTableModel(
+				new String[][] {
+					{"Serial",""},
+					{"Version", ""},
+					{"Tipo", ""}
+				},
+				new String[] {
+					"Variable", "Valor"
+				})
 			{
-				if(column > 0)
-					return true;
-				else
-					return false;
-			}
-		});
+				@SuppressWarnings("rawtypes")
+				Class[] columnTypes = new Class[] {
+					String.class, String.class
+				};
+				
+				@SuppressWarnings({ "unchecked", "rawtypes" })
+				public Class getColumnClass(int columnIndex) {
+					return columnTypes[columnIndex];
+				}
+				public boolean isCellEditable(int row, int column)
+				{
+					/*if(column > 0)
+						return true;
+					else*/
+						return false;
+				}
+			};
+		table.setModel(modeloDispositivo); 
 		table.getColumnModel().getColumn(0).setPreferredWidth(100);
 		table.getColumnModel().getColumn(1).setPreferredWidth(250);
 		table.setAutoResizeMode(0);
@@ -361,6 +369,10 @@ public class MainWindow implements ActionListener {
 		pref.width = 100;
 		pgStatus.setMaximumSize(pref);
 		pgStatus.setMinimumSize(pref);
+		
+		//listado de componentes que cambian de estado
+		objetos = new JComponent[] {(JComponent)mntmLeer, (JComponent)mntmEscribir, (JComponent)mntmRecargar, (JComponent)mntmReproducir, (JComponent)mntmDetener, (JComponent)btnLeer, (JComponent)btnEscribir, (JComponent)btnRecargar, (JComponent)btnReproducir, (JComponent)btnDetener};
+		HabilitarComponentes(false);
 	}
 	
 	public void showWindow()
@@ -371,6 +383,15 @@ public class MainWindow implements ActionListener {
 	public void close()
 	{
 		frmKtUsbControl.dispose();
+	}
+	
+	public void HabilitarComponentes(boolean estado)
+	{
+		for(JComponent objeto : objetos)
+		{
+			if(objeto != null)
+				objeto.setEnabled(estado);
+		}
 	}
 
 	@Override
@@ -390,12 +411,15 @@ public class MainWindow implements ActionListener {
 			if(usbabierto)
 			{
 				usbabierto = false;
-				//hidUsb.CierraHidUsb();
+				hidUsb.CierraHidUsb();
+				
+				HabilitarComponentes(usbabierto);
 				
 				mntmConectar.setText("Conectar");
 				mntmConectar.setIcon(new ImageIcon(MainWindow.class.getResource("/resources/noconnected.png")));
 				btnConectar.setIcon(new ImageIcon(MainWindow.class.getResource("/resources/noconnected.png")));
 				btnConectar.setToolTipText("Conectar");
+				lblCargando.setText("En espera...");
 			}
 			else
 			{
@@ -409,7 +433,9 @@ public class MainWindow implements ActionListener {
 					mntmConectar.setText("Desconectar");
 					mntmConectar.setIcon(new ImageIcon(MainWindow.class.getResource("/resources/connected.png")));
 					btnConectar.setIcon(new ImageIcon(MainWindow.class.getResource("/resources/connected.png")));
-					btnConectar.setToolTipText("Desconectar");				
+					btnConectar.setToolTipText("Desconectar");
+					HabilitarComponentes(usbabierto);
+					lblCargando.setText("Dispositivo USB conectado.");
 				}
 			}
 		}
